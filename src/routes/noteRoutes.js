@@ -1,11 +1,6 @@
 const express=require("express");
+const addnote = require("../controllers/noteController");
 const noteRouter=express.Router();
 
-noteRouter.post("/add",(req,res)=>{
-    res.status(200).send("added")
-})
-noteRouter.get("/retreive",(req,res)=>{
-    res.status(200).send("retrived")
-})
-
+noteRouter.post("/add",addnote);
 module.exports=noteRouter;

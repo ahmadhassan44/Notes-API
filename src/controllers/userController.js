@@ -29,7 +29,6 @@ const signup= async (req,res)=>{
         res.status(500).send("Something went Wrong!");
     }
 
-
 }
 const signin=async (req,res)=>{
     const{email,password}=req.body;
@@ -37,11 +36,14 @@ const signin=async (req,res)=>{
         const result=await userModel.findOne({email:email});
         if(result)
             if(await bcrypt.compare(password,result.password))
-                return res.status(200).send({message:"Logged in"}) 
+                {
+                    const token=jwt.sign({email:result.email,id:result._id},SECRET_KEY);
+                    return res.status(200).send({message:"Logged in",token:token})
+                }
             else 
-                return res.status(200).send({message:"Invalid password"})  
+                return res.status(400).send({message:"Invalid password"})  
         else
-            return res.status(200).send({message:"User doesn't exists"});
+            return res.status(400).send({message:"User doesn't exists"});
         
     } catch (error) {
         res.status(500).send("Something went Wrong!");

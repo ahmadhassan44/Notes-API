@@ -5,6 +5,11 @@ const app=express();
 const mongoose=require("mongoose");
 app.use(express.json());
 
+app.use((req,res,next)=>{
+    console.log("http "+req.method+" url "+req.url);
+    next();
+})
+
 app.use("/users",userRouter);
 app.use("/notes",noteRouter);
 
